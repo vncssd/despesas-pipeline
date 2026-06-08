@@ -2,6 +2,8 @@
 
 Pipeline de dados que consome uma API REST de controle de despesas pessoais, carrega os dados no Snowflake e os transforma em camadas analíticas com dbt, expondo os resultados no Looker Studio.
 
+<a href='https://datastudio.google.com/reporting/b1d19823-5d2b-4de3-a0b9-cb72b5ea2ba5'> Acesse o dashboard </a>
+
 ## Arquitetura
 
 ```
