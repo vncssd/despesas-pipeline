@@ -1,0 +1,44 @@
+version: 2
+
+sources:
+  - name: despesas
+    database: CONTROLE_DESPESAS
+    schema: RAW
+    tables:
+      - name: DESPESAS_RAW
+        tests:
+          - dbt_utils.expression_is_true:
+              expression: "not (tipo = 'A_VISTA' and parc_id is not null)"
+              name: despesa_a_vista_sem_parcelamento
+          - dbt_utils.expression_is_true:
+              expression: "not (tipo = 'A_VISTA' and valor_total is not null)"
+              name: despesa_a_vista_sem_valor_total
+          - dbt_utils.expression_is_true:
+              expression: "not (tipo = 'PARCELADA' and parc_id is null)"
+              name: despesa_parcelada_com_parcelamento
+        columns:
+          - name: id
+            tests:
+              - unique
+              - not_null
+          - name: descricao
+            tests:
+              - not_null
+          - name: valor_original
+            tests:
+              - not_null
+          - name: tipo
+            tests:
+              - not_null
+              - accepted_values:
+                  values: ['A_VISTA', 'PARCELADA']
+          - name: prioridade
+            tests:
+              - not_null
+              - accepted_values:
+                  values: ['ALTA', 'MEDIA', 'BAIXA']
+          - name: status
+            tests:
+              - not_null
+              - accepted_values:
+                  values: ['PENDENTE', 'PAGA']
